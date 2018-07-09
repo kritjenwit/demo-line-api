@@ -7,7 +7,9 @@ require 'vendor/autoload.php';
 
 $access_token = ACCESS_TOKEN;
 $channelSecret = CHANNEL_SECRET;
-$pushID = USER_ID;
+
+// not being used
+// $pushID = USER_ID; 
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($access_token);
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $channelSecret]);
@@ -49,11 +51,16 @@ if(!is_null($events['events'])){
 
 	//---------------------------------------------------
 
-
+	
 	foreach ($events['events'] as $event) {
 		
+		// 
 		$replyToken = $event['replyToken'];
-		$user_id = $event['source']['userId'];
+
+		// not being used
+		// $user_id = $event['source']['userId'];
+
+		// Declare what type of message was sent from the user
 		$msgType = $event['message']['type'];
 
 
@@ -224,7 +231,32 @@ if(!is_null($events['events'])){
 			// Message to be sends
 			$multiMsg = new MultiMessageBuilder;
 			$multiMsg->add($textMsg);
-		}		
+		}
+		
+		// ----------------------- If message type is location DO HERE -----------------------------
+		elseif($msgType == 'location'){
+			$textMsg = new TextMessageBuilder('Location sent');
+			// Message to be sends
+			$multiMsg = new MultiMessageBuilder;
+			$multiMsg->add($textMsg);
+		}
+
+		// ----------------------- If message type is video DO HERE --------------------------------
+		elseif($msgType == 'video'){
+			$textMsg = new TextMessageBuilder('Video sent');
+			// Message to be sends
+			$multiMsg = new MultiMessageBuilder;
+			$multiMsg->add($textMsg);
+		}
+
+		// ----------------------- if message type is audio DO here --------------------------------
+		elseif($msgType == 'audio'){
+			$textMsg = new TextMessageBuilder('Audio sent');
+			// Message to be sends
+			$multiMsg = new MultiMessageBuilder;
+			$multiMsg->add($textMsg);
+		}
+
 	}
 	// Code to reply to send message user
 	$response = $bot->replyMessage($replyToken, $multiMsg);
