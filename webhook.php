@@ -58,7 +58,7 @@ if(!is_null($events['events'])){
 		$replyToken = $event['replyToken'];
 
 		// not being used
-		// $user_id = $event['source']['userId'];
+		$user_id = $event['source']['userId'];
 
 		// Declare what type of message was sent from the user
 		$msgType = $event['message']['type'];
@@ -207,6 +207,38 @@ if(!is_null($events['events'])){
 				$multiMsg->add($butttonTemp);
 			}
 
+			elseif($msg == 'richmenu'){
+                # -------------------------------- Decleare Richmenu Property --------------------------------
+
+                $sizeBuilder = RichMenuSizeBuilder::getFull();
+                $boundBuilder = new RichMenuAreaBoundsBuilder(0,0,2500,1686);
+                $actionBuilder =  new UriTemplateActionBuilder('Test','http://www.instagram.com');
+                
+                $areaBuilder = array(
+                    new RichMenuAreaBuilder($boundBuilder,$actionBuilder)
+                );
+                
+                $builder = new RichMenuBuilder($sizeBuilder,false,'Controller','Tab to open',$areaBuilder);
+
+                # -------------------- Create Rich Menu ---------------------------------
+
+                $response = $bot->createRichMenu($builder);
+
+                // # ------------ Get Richmenu Id -----------------------
+
+                $richMenuIdArr = $response->getJSONDecodedBody();
+                $richMenuId = $richMenuIdArr['richMenuId'];
+
+                # -------------- Insert image to Richmenu -----------
+
+                $upload = $bot->uploadRichMenuImage($richMenuId,'E:\xampp\htdocs\line-rich\controller.jpg','image/jpeg');
+
+                # ------------ Link user id with richmenu id --------
+
+                $link = $bot->linkRichMenu($user_id,$richMenuId);
+    
+                # ---------------------------------------------------
+            }
 			// -------------- If cannot find message ------------------
 			else{
 				$textMsg = new TextMessageBuilder('Please try again!');
