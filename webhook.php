@@ -27,7 +27,11 @@ use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder; 
 use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
-
+# Rich menu builder
+use \LINE\LINEBot\RichMenuBuilder;
+use \LINE\LINEBot\RichMenuBuilder\RichMenuSizeBuilder;
+use \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBoundsBuilder;
+use \LINE\LINEBot\RichMenuBuilder\RichMenuAreaBuilder;
 
 // ------------------------------------- GET PROFILE DATA SENT FROM USER'S LINE ---------------------------------
 
